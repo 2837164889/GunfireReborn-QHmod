@@ -1,4 +1,4 @@
-# GunfireReborn-辅助瞄准+显示信息mod
+# GunfireReborn-自动瞄准+透视信息mod
 
 本项目基于 [pentium1131](https://github.com/pentium1131) 的 [GunfireReborn-aimbot](https://github.com/pentium1131/GunfireReborn-aimbot) 项目，
 
