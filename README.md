@@ -43,7 +43,9 @@
 5. 本mod只用于学习Unity和C#代码。
 
 # 效果图
-
+血条以及宝箱透视
 ![toushi](https://user-images.githubusercontent.com/44740722/202058969-b81a4776-b094-4408-8776-a214a4b3d6fb.png)
+高跳
 ![gaotiao](https://user-images.githubusercontent.com/44740722/202058978-d77ed357-376f-4416-bb5b-25037e30a828.png)
+Melonloader调试控制台
 ![控制台](https://user-images.githubusercontent.com/44740722/202058990-85694c92-b4a4-4a82-a307-07af2a4f0246.png)
