@@ -6,7 +6,7 @@
 
 # 安装教程
 
-0. 打开[最新版本下载链接](https://github.com/zhang0281/GRMod/releases/latest) 并下载 ```QHmod.zip``` 如果网络不是特别好的用户可以下载 ```QHmod with dll.zip``` 来安装。
+0. 打开[最新版本下载链接](https://github.com/2837164889/QHMod/releases/) 并下载 ```QHmod.zip``` 如果网络不是特别好的用户可以下载 ```QHmod with dll.zip``` 来安装。
 
 1. 解压到 GunfireReborn 的游戏根目录下。
 
@@ -16,7 +16,7 @@
 
    安装完MelonLoader后运行一次游戏。
 
-   之后在游戏根目录下创建```Mods```文件夹，将安装包zip内的```Mods```文件夹下的```GRMod.dll```复制进游戏根目录下的```Mods```文件夹中即可。
+   之后在游戏根目录下创建```Mods```文件夹，将安装包zip内的```Mods```文件夹下的```QHMod.dll```复制进游戏根目录下的```Mods```文件夹中即可。
 
 # 使用方法
 
