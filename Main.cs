@@ -1,4 +1,4 @@
-﻿using MelonLoader;
+using MelonLoader;
 using UnityEngine;
 using System;
 using Il2CppSystem.Collections.Generic;
@@ -11,6 +11,7 @@ using System.Diagnostics;
 using Steamworks;
 using ClientCollet;
 using System.Linq;
+using UnhollowerBaseLib;
 
 namespace QHMod
 {
@@ -20,10 +21,10 @@ namespace QHMod
         public const string Description = "枪火重生模组.原作者pentium1131和Hkl146 zhang.由修改"; // Description for the Mod.  (Set as null if none)
         public const string Author = "RanDomHacker"; // Author of the Mod.  (Set as null if none)
         public const string Company = null; // Company that made the Mod.  (Set as null if none)
-        public const string Version = "2.5.0"; // Version of the Mod.  (MUST BE SET)
-        public const string DownloadLink = ""; // Download Link for the Mod.  (Set as null if none)
+        public const string Version = "2.6.0"; // Version of the Mod.  (MUST BE SET)
+        public const string DownloadLink = "https://github.com/2837164889/GunfireReborn-QHmod"; // Download Link for the Mod.  (Set as null if none)
     }
-   
+
     public class QHMod : MelonMod
     {
         public static bool HelpText = false;
@@ -40,6 +41,8 @@ namespace QHMod
         public static bool playerEnhance = false;
         public static KeyCode AimKey = KeyCode.F4;
         public static bool Aim = false;
+        public static KeyCode AimKey1 = KeyCode.F9;
+        public static bool Aim1 = false;
         public static KeyCode AttDistanceStateKey = KeyCode.F5;
         public static bool AttDistanceState = false;
         public static KeyCode SuperJumpTypeKey = KeyCode.F6;
@@ -49,12 +52,12 @@ namespace QHMod
         public static bool ShowBloodBarState = false;
         public static KeyCode pickupKey = KeyCode.Mouse2;
         public static KeyCode ZoomWeakStateKey = KeyCode.Z;
-        public static bool ZoomWeakState = false; 
-        public static float ZoomWeakNum = 2.5f; 
+        public static bool ZoomWeakState = false;
+        public static float ZoomWeakNum = 2.5f;
         private float originJumpHeight;
         private float originSpeed;
         public static bool needinit = true;
-       
+
         /**
          * 快捷键开关相关代码
          */
@@ -84,10 +87,18 @@ namespace QHMod
                 MelonLogger.Msg("武器增强已" + (weaponEnhance ? "开启" : "关闭"));
             }
             //子弹跟踪
-            if (Input.GetKeyUp(AimKey))
+            if (Input.GetKeyUp(QHMod.AimKey))
             {
-                Aim = !Aim;
-                MelonLogger.Msg("子弹跟踪已" + (Aim ? "开启" : "关闭"));
+                if (QHMod.Aim1)
+                {
+                    QHMod.Aim1 = !QHMod.Aim1;
+                    QHMod.Aim = !QHMod.Aim;
+                }
+                else
+                {
+                    QHMod.Aim = !QHMod.Aim;
+                }
+                MelonLogger.Msg("子弹跟踪已" + (QHMod.Aim ? "开启" : "关闭"));
             }
             // 透视开关
             if (Input.GetKey(shownpcKey))
@@ -100,18 +111,18 @@ namespace QHMod
                 playerEnhance = !playerEnhance;
                 MelonLogger.Msg("玩家增强已" + (playerEnhance ? "开启" : "关闭"));
             }
-            if (Input.GetKeyUp(ShowBloodBarStateKey)) 
+            if (Input.GetKeyUp(ShowBloodBarStateKey))
             {
                 ShowBloodBarState = !ShowBloodBarState;
                 MelonLogger.Msg("血条透视已" + (ShowBloodBarState ? "开启" : "关闭"));
             }
             //近战距离
-            if (Input.GetKeyDown(AttDistanceStateKey)) 
-            { 
+            if (Input.GetKeyDown(AttDistanceStateKey))
+            {
                 AttDistanceState = !AttDistanceState;
                 MelonLogger.Msg("近战距离已" + (AttDistanceState ? "开启" : "关闭"));
             }
-            if (Input.GetKeyUp(SuperJumpTypeKey)) 
+            if (Input.GetKeyUp(SuperJumpTypeKey))
             {
                 SuperJumpType = !SuperJumpType;
                 MelonLogger.Msg("起飞已" + (SuperJumpType ? "开启" : "关闭"));
@@ -335,22 +346,22 @@ namespace QHMod
                     }
                 }
                 //子弹跟踪
-                if (Aim)
+                if (Aim && (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1)))
                 {
                     List<NewPlayerObject> monsters = NewPlayerManager.GetMonsters();
-                    if (monsters == null) 
-                    { 
-                        return; 
+                    if (monsters == null)
+                    {
+                        return;
                     }
                     Vector3 position = CameraManager.MainCamera.position;
                     Transform transform = null;
                     float SightRange = 9999999;
                     foreach (var monster in monsters)
                     {   // 无敌怪
-                        if (monster.playerProp.HP == 1 && (monster.BloodBarCom.BloodBar.isSpecialUndieChallenge || monster.BloodBarCom.BloodBar.isUndieChallenge || monster.BloodBarCom.BloodBar.isUndieStart)) 
-                        { 
-                            continue; 
-                        }    
+                        if (monster.playerProp.HP == 1 && (monster.BloodBarCom.BloodBar.isSpecialUndieChallenge || monster.BloodBarCom.BloodBar.isUndieChallenge || monster.BloodBarCom.BloodBar.isUndieStart))
+                        {
+                            continue;
+                        }
                         try
                         {
                             Transform weakTrans = monster.BodyPartCom.GetWeakTrans(false);
@@ -360,9 +371,9 @@ namespace QHMod
                                 float Distance = vector.magnitude;
                                 Ray ray = new Ray(position, vector);
                                 var hits = Physics.RaycastAll(ray, Distance);
-                                if (hits.Any(hit => hit.collider.gameObject.tag == "Monster_Shield")) 
-                                { 
-                                    ZoomShield(); 
+                                if (hits.Any(hit => hit.collider.gameObject.tag == "Monster_Shield"))
+                                {
+                                    ZoomShield();
                                 }
                                 bool query = hits.Any(hit => hit.collider.gameObject.layer == 0 || hit.collider.gameObject.layer == 30 || hit.collider.gameObject.layer == 31 || hit.collider.gameObject.tag == "Monster_Shield");
                                 if (!query && Distance < SightRange)
@@ -387,6 +398,53 @@ namespace QHMod
 
 
                 }
+                if (QHMod.Aim1)
+                {
+                    List<NewPlayerObject> monsters3 = NewPlayerManager.GetMonsters();
+                    if (monsters3 != null)
+                    {
+                        Vector3 position3 = CameraManager.MainCamera.position;
+                        Transform transform = null;
+                        float num5 = 9999999f;
+                        foreach (NewPlayerObject newPlayerObject3 in monsters3)
+                        {
+                            if (newPlayerObject3.playerProp.HP != 1f || (!newPlayerObject3.BloodBarCom.BloodBar.isSpecialUndieChallenge && !newPlayerObject3.BloodBarCom.BloodBar.isUndieChallenge && !newPlayerObject3.BloodBarCom.BloodBar.isUndieStart))
+                            {
+                                try
+                                {
+                                    Transform weakTrans2 = newPlayerObject3.BodyPartCom.GetWeakTrans(false);
+                                    if (weakTrans2 != null)
+                                    {
+                                        Vector3 direction2 = weakTrans2.position - position3;
+                                        float magnitude3 = direction2.magnitude;
+                                        Il2CppStructArray<RaycastHit> source2 = Physics.RaycastAll(new Ray(position3, direction2), magnitude3);
+                                        if (source2.Any((RaycastHit hit) => hit.collider.gameObject.tag == "Monster_Shield"))
+                                        {
+                                            this.ZoomShield();
+                                        }
+                                        if (!source2.Any((RaycastHit hit) => hit.collider.gameObject.layer == 0 || hit.collider.gameObject.layer == 30 || hit.collider.gameObject.layer == 31 || hit.collider.gameObject.tag == "Monster_Shield") && magnitude3 < num5)
+                                        {
+                                            num5 = magnitude3;
+                                            transform = weakTrans2;
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+                        if (transform != null)
+                        {
+                            Vector3 forward3 = transform.position - position3;
+                            forward3.y += 0.14f;
+                            Quaternion rotation4 = Quaternion.LookRotation(forward3);
+                            CameraManager.MainCamera.rotation = rotation4;
+                        }
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -408,17 +466,18 @@ namespace QHMod
                 GUILayout.BeginArea(new Rect(0f, 200f, 150f, 500f));
                 GUILayout.Label("<b><color=red>QHMod功能菜单</color></b>", null);
                 GUILayout.Label("<color=red>自动捡物品(鼠标中间)</color>", null);
-                GUILayout.Label("<b><color=red>显示/隐藏(" + showUIKey.ToString()+ ")</color></b>", null);
-                GUILayout.Label("<b><color=red>重新初始化(" + needinitKey.ToString() + ")</color></b>", null);
-                GUILayout.Label("<b><color=red>辅助瞄准(" + autoaimKey.ToString() + ")：</color></b>" + (autoaim ? "开" : "关"), null);
-                GUILayout.Label("<b><color=red>武器增强(" + weaponEnhanceKey.ToString() + ")：</color></b>" + (weaponEnhance ? "开" : "关"), null);
-                GUILayout.Label("<b><color=red>玩家增强(" + playerEnhanceKey.ToString() + ")：</color></b>" + (playerEnhance ? "开" : "关"), null);
-                GUILayout.Label("<b><color=red>子弹跟踪(" + AimKey.ToString() + ")：</color></b>" + (Aim ? "开" : "关"), null);
-                GUILayout.Label("<b><color=red>近战距离(" + AttDistanceStateKey.ToString() + ")：</color></b>" + (AttDistanceState ? "开" : "关"), null);
-                GUILayout.Label("<b><color=red>起飞开关(" + SuperJumpTypeKey.ToString() + ")：</color></b>" + (SuperJumpType ? "开" : "关"), null);
-                GUILayout.Label("<b><color=red>大头开关(" + ZoomWeakStateKey.ToString() + ")：</color></b>" + (ZoomWeakState ? "开" : "关"), null);
-                GUILayout.Label("<b><color=red>血条透视(" + ShowBloodBarStateKey.ToString() + ")：</color></b>" + (ShowBloodBarState ? "开" : "关"), null);
-                GUILayout.Label("<b><color=red>透视开关(" + shownpcKey.ToString() + ")：</color></b>" + (shownpc ? "开" : "关"), null);  
+                GUILayout.Label("<b><color=red>显示/隐藏(" + QHMod.showUIKey.ToString() + ")</color></b>", null);
+                GUILayout.Label("<b><color=red>重新初始化(" + QHMod.needinitKey.ToString() + ")</color></b>", null);
+                GUILayout.Label("<b><color=red>辅助瞄准(" + QHMod.autoaimKey.ToString() + ")：</color></b>" + (QHMod.autoaim ? "开" : "关"), null);
+                GUILayout.Label("<b><color=red>武器增强(" + QHMod.weaponEnhanceKey.ToString() + ")：</color></b>" + (QHMod.weaponEnhance ? "开" : "关"), null);
+                GUILayout.Label("<b><color=red>玩家增强(" + QHMod.playerEnhanceKey.ToString() + ")：</color></b>" + (QHMod.playerEnhance ? "开" : "关"), null);
+                GUILayout.Label("<b><color=red>子弹跟踪(" + QHMod.AimKey.ToString() + ")：</color></b>" + (QHMod.Aim ? "开" : "关"), null);
+                GUILayout.Label("<b><color=red>子弹跟踪(爆炸专用)(" + QHMod.AimKey1.ToString() + ")：</color></b>" + (QHMod.Aim1 ? "开" : "关"), null);
+                GUILayout.Label("<b><color=red>近战距离(" + QHMod.AttDistanceStateKey.ToString() + ")：</color></b>" + (QHMod.AttDistanceState ? "开" : "关"), null);
+                GUILayout.Label("<b><color=red>起飞开关(" + QHMod.SuperJumpTypeKey.ToString() + ")：</color></b>" + (QHMod.SuperJumpType ? "开" : "关"), null);
+                GUILayout.Label("<b><color=red>大头开关(" + QHMod.ZoomWeakStateKey.ToString() + ")：</color></b>" + (QHMod.ZoomWeakState ? "开" : "关"), null);
+                GUILayout.Label("<b><color=red>血条透视(" + QHMod.ShowBloodBarStateKey.ToString() + ")：</color></b>" + (QHMod.ShowBloodBarState ? "开" : "关"), null);
+                GUILayout.Label("<b><color=red>透视开关(" + QHMod.shownpcKey.ToString() + ")：</color></b>" + (QHMod.shownpc ? "开" : "关"), null);
                 GUILayout.EndArea();
             }
             //起飞
@@ -557,7 +616,7 @@ namespace QHMod
                 case ServerDefine.FightType.NWARRIOR_NPC_GSCASHSHOP:
                     return "奇货商";
                 case ServerDefine.FightType.NWARRIOR_NPC_PASSBOX:
-                    return "过关宝箱"; 
+                    return "过关宝箱";
                 default:
                     return obj.Shape.ToString();
             }
