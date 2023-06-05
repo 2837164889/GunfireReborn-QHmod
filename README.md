@@ -6,7 +6,7 @@
 
 # 安装教程
 
-0. 打开[最新版本下载链接](https://github.com/2837164889/QHMod/releases/) 并下载 ```QHmod.zip``` 如果网络不是特别好的用户可以下载 ```QHmod with dll.zip``` 来安装。
+0. 打开[最新版本下载链接](https://github.com/2837164889/GunfireReborn-QHmod/releases/) 并下载 ```QHmod.zip``` 如果网络不是特别好的用户可以下载 ```QHmod with dll.zip``` 来安装。
 
 1. 解压到 GunfireReborn 的游戏根目录下。
 
@@ -43,9 +43,13 @@
 5. 本mod只用于学习Unity和C#代码。
 
 # 效果图
+
 血条以及宝箱透视
 ![toushi](https://user-images.githubusercontent.com/44740722/202058969-b81a4776-b094-4408-8776-a214a4b3d6fb.png)
 高跳
 ![gaotiao](https://user-images.githubusercontent.com/44740722/202058978-d77ed357-376f-4416-bb5b-25037e30a828.png)
 Melonloader调试控制台
 ![控制台](https://user-images.githubusercontent.com/44740722/202058990-85694c92-b4a4-4a82-a307-07af2a4f0246.png)
+
+# 打赏（请我喝可乐~~）
+![b6fa2ad8412d5f45944ce67a96e1ac8](https://github.com/2837164889/GunfireReborn-QHmod/assets/44740722/0957283f-ade0-470d-b37a-ac69296b75b6)
