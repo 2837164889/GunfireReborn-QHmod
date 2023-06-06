@@ -21,7 +21,7 @@ namespace QHMod
         public const string Description = "枪火重生模组.原作者pentium1131和Hkl146 zhang.由修改"; // Description for the Mod.  (Set as null if none)
         public const string Author = "RanDomHacker"; // Author of the Mod.  (Set as null if none)
         public const string Company = null; // Company that made the Mod.  (Set as null if none)
-        public const string Version = "2.6.0"; // Version of the Mod.  (MUST BE SET)
+        public const string Version = "2.7.0"; // Version of the Mod.  (MUST BE SET)
         public const string DownloadLink = "https://github.com/2837164889/GunfireReborn-QHmod"; // Download Link for the Mod.  (Set as null if none)
     }
 
@@ -345,6 +345,7 @@ namespace QHMod
                         }
                     }
                 }
+               
                 //子弹跟踪
                 if (Aim && (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1)))
                 {
@@ -395,9 +396,8 @@ namespace QHMod
                         Quaternion rotation = Quaternion.LookRotation(forward);
                         CameraManager.MainCamera.rotation = rotation;
                     }
-
-
                 }
+
                 if (QHMod.Aim1)
                 {
                     List<NewPlayerObject> monsters3 = NewPlayerManager.GetMonsters();
@@ -451,6 +451,7 @@ namespace QHMod
                 MelonLogger.Msg("异常:" + ex.ToString());
             }
         }
+
         void ZoomShield()
         {
             var Shields = GameObject.FindGameObjectsWithTag("Monster_Shield");
@@ -464,7 +465,7 @@ namespace QHMod
             if (showUI)
             {
                 GUILayout.BeginArea(new Rect(0f, 200f, 150f, 500f));
-                GUILayout.Label("<b><color=red>QHMod功能菜单</color></b>", null);
+                GUILayout.Label("<b><color=red>"+"QHMod功能菜单"+ BuildInfo.Version.ToString()+ "版本" +"</color></b>", null);
                 GUILayout.Label("<color=red>自动捡物品(鼠标中间)</color>", null);
                 GUILayout.Label("<b><color=red>显示/隐藏(" + QHMod.showUIKey.ToString() + ")</color></b>", null);
                 GUILayout.Label("<b><color=red>重新初始化(" + QHMod.needinitKey.ToString() + ")</color></b>", null);
@@ -478,6 +479,7 @@ namespace QHMod
                 GUILayout.Label("<b><color=red>大头开关(" + QHMod.ZoomWeakStateKey.ToString() + ")：</color></b>" + (QHMod.ZoomWeakState ? "开" : "关"), null);
                 GUILayout.Label("<b><color=red>血条透视(" + QHMod.ShowBloodBarStateKey.ToString() + ")：</color></b>" + (QHMod.ShowBloodBarState ? "开" : "关"), null);
                 GUILayout.Label("<b><color=red>透视开关(" + QHMod.shownpcKey.ToString() + ")：</color></b>" + (QHMod.shownpc ? "开" : "关"), null);
+                GUILayout.Label("<b><color=red>"+ "项目地址:" + BuildInfo.DownloadLink.ToString() +"</color></b>", null);
                 GUILayout.EndArea();
             }
             //起飞
