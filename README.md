@@ -3,6 +3,7 @@
 本项目基于 [pentium1131](https://github.com/pentium1131) 的 [GunfireReborn-aimbot](https://github.com/pentium1131/GunfireReborn-aimbot) 项目，
 
 [Hkl146](https://github.com/Hkl146) 的 [GunfireReborn_MTMOD](https://github.com/Hkl146/GunfireReborn_MTMOD) 项目 的 [GUNINFO](https://github.com/Hkl146/GUNINFO)  和[tslpy1](https://github.com/tslpy1/GRMod)项目 修改而来。
+Discord：https://discord.gg/ym6Hsnw6D9
 
 # 安装教程
 
