@@ -4,7 +4,7 @@
 
 [Hkl146](https://github.com/Hkl146) 的 [GunfireReborn_MTMOD](https://github.com/Hkl146/GunfireReborn_MTMOD) 项目 的 [GUNINFO](https://github.com/Hkl146/GUNINFO)  和[tslpy1](https://github.com/tslpy1/GRMod)项目 修改而来。
 
-本项目Discord：https://discord.gg/ym6Hsnw6D9
+本项目Discord：https://discord.gg/ym6Hsnw6D9  <----有任何疑问加入并at我
 
 # 安装教程
 
