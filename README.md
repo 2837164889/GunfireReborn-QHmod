@@ -10,7 +10,7 @@
 
 0. 打开[最新版本下载链接](https://github.com/2837164889/GunfireReborn-QHmod/releases/) 并下载 ```QHmod.zip``` 如果网络不是特别好的用户可以下载 ```QHmod with dll.zip``` 来安装。
 1. [最新版2.7.1下载地址](https://www.mediafire.com/file/l0m3zxtkh5u2184/QHMod2.7.1.zip/file) 
-   [最新版2.7.2下载地址](https://www.mediafire.com/file/xkfz7hxvwww2spf/QHMod2.7.2.zip/file)--点击并下载即可.
+   [最新版2.7.2下载地址](https://www.mediafire.com/file/xkfz7hxvwww2spf/QHMod2.7.2.zip/file)点击并下载即可.
 
 2. 解压到 GunfireReborn 的游戏根目录下。
 
