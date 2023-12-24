@@ -10,11 +10,12 @@
 
 0. 打开[最新版本下载链接](https://github.com/2837164889/GunfireReborn-QHmod/releases/) 并下载 ```QHmod.zip``` 如果网络不是特别好的用户可以下载 ```QHmod with dll.zip``` 来安装。
 1. [最新版2.7.1下载地址](https://www.mediafire.com/file/l0m3zxtkh5u2184/QHMod2.7.1.zip/file) 
-   [最新版2.7.2下载地址](https://www.mediafire.com/file/xkfz7hxvwww2spf/QHMod2.7.2.zip/file)点击并下载即可.
+   [最新版2.7.2下载地址](https://www.mediafire.com/file/xkfz7hxvwww2spf/QHMod2.7.2.zip/file)
+   [最新版2.7.2下载地址](https://www.mediafire.com/file/ebk36u8ijlfj674/QHMod2.7.3.zip/file)点击并下载即可.
 
-2. 解压到 GunfireReborn 的游戏根目录下。
+3. 解压到 GunfireReborn 的游戏根目录下。
 
-3. 注意：含依赖的版本是会随着游戏更新而失效的。这时候可能需要到[MelonLoader最新版本下载链接](https://github.com/LavaGang/MelonLoader/releases/latest)下载最新版本的``` MelonLoader.x64.zip ``` 来安装一个干净的MelonLoader。
+4. 注意：含依赖的版本是会随着游戏更新而失效的。这时候可能需要到[MelonLoader最新版本下载链接](https://github.com/LavaGang/MelonLoader/releases/latest)下载最新版本的``` MelonLoader.x64.zip ``` 来安装一个干净的MelonLoader。
 
    将MelonLoader的压缩包解压至游戏根目录下即可完成MelonLoader的安装。
 
