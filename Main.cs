@@ -21,8 +21,9 @@ namespace QHMod
         public const string Description = "枪火重生模组.原作者pentium1131和Hkl146 zhang.由修改"; // Description for the Mod.  (Set as null if none)
         public const string Author = "RanDomHacker"; // Author of the Mod.  (Set as null if none)
         public const string Company = null; // Company that made the Mod.  (Set as null if none)
-        public const string Version = "2.7.0"; // Version of the Mod.  (MUST BE SET)
+        public const string Version = "2.7.3"; // Version of the Mod.  (MUST BE SET)
         public const string DownloadLink = "https://github.com/2837164889/GunfireReborn-QHmod"; // Download Link for the Mod.  (Set as null if none)
+        public const string Discord = "https://discord.gg/xkXmc5EwSx"; //Discord Link for Mod. (Set as null if none)
     }
 
     public class QHMod : MelonMod
@@ -57,6 +58,9 @@ namespace QHMod
         private float originJumpHeight;
         private float originSpeed;
         public static bool needinit = true;
+        public static KeyCode DiscordKey = KeyCode.PageDown;
+        public static KeyCode GithubKey = KeyCode.PageUp;
+        
 
         /**
          * 快捷键开关相关代码
@@ -86,19 +90,34 @@ namespace QHMod
                 weaponEnhance = !weaponEnhance;
                 MelonLogger.Msg("武器增强已" + (weaponEnhance ? "开启" : "关闭"));
             }
-            //子弹跟踪
+            // 子弹跟踪
             if (Input.GetKeyUp(QHMod.AimKey))
             {
                 if (QHMod.Aim1)
                 {
-                    QHMod.Aim1 = !QHMod.Aim1;
-                    QHMod.Aim = !QHMod.Aim;
+                    QHMod.Aim1 = false;
+                    QHMod.Aim = false;
+                    MelonLogger.Msg("子弹跟踪已关闭");
                 }
                 else
                 {
                     QHMod.Aim = !QHMod.Aim;
+                    MelonLogger.Msg("子弹跟踪已" + (QHMod.Aim ? "开启" : "关闭"));
                 }
-                MelonLogger.Msg("子弹跟踪已" + (QHMod.Aim ? "开启" : "关闭"));
+            }
+            //子弹跟踪爆炸专用
+            if (Input.GetKeyUp(QHMod.AimKey1))
+            {
+                if (QHMod.Aim)
+                {
+                    QHMod.Aim = false;
+                    MelonLogger.Msg("子弹跟踪已关闭");
+                }
+                else
+                {
+                    QHMod.Aim1 = !QHMod.Aim1;
+                    MelonLogger.Msg("爆炸专用子弹跟踪已" + (QHMod.Aim1 ? "开启" : "关闭"));
+                }
             }
             // 透视开关
             if (Input.GetKey(shownpcKey))
@@ -132,6 +151,7 @@ namespace QHMod
                 ZoomWeakState = !ZoomWeakState;
                 MelonLogger.Msg("大头开关已" + (ZoomWeakState ? "开启" : "关闭"));
             }
+            //鼠标滚轮中键吸物
             if (Input.GetKeyDown(pickupKey))
             {
                 /*
@@ -169,6 +189,18 @@ namespace QHMod
                     MelonLogger.Msg("已捡取物品");
                 }
             }
+            //打开浏览器加入discord
+            if (Input.GetKeyDown(DiscordKey))
+            {
+               String url =  BuildInfo.Discord.ToString();
+                Process.Start(url);
+            }
+            //打开github项目
+            if (Input.GetKeyDown(GithubKey)) 
+            {
+                String url = BuildInfo.DownloadLink.ToString();
+                Process.Start(url);
+            }
         }
         public override void OnUpdate()
         {
@@ -181,6 +213,7 @@ namespace QHMod
                     showUI = false;
                     autoaim = false;
                     Aim = false;
+                    Aim1 = false;
                     AttDistanceState = false;
                     weaponEnhance = false;
                     playerEnhance = false;
@@ -242,6 +275,35 @@ namespace QHMod
                 // 玩家增强
                 if (HeroCameraManager.HeroObj != null)
                 {
+                    if (HeroCameraManager.HeroObj != null)
+                    {
+                        if (originJumpHeight == 0f)
+                        {
+                            originJumpHeight = HeroMoveManager.HMMJS.jumping.baseHeight;
+                        }
+                        if (originSpeed == 0f)
+                        {
+                            originSpeed = HeroMoveManager.HMMJS.maxForwardSpeed;
+                        }
+
+                        // 计算增强状态下的速度和跳跃高度
+                        float enhancedJumpHeight = 64f / (HeroMoveManager.HMMJS.movement.gravity * 2f);
+                        float enhancedSpeed = 10f;
+
+                        // 根据条件设置速度和跳跃高度
+                        if (playerEnhance)
+                        {
+                            HeroMoveManager.HMMJS.jumping.baseHeight = Mathf.Max(HeroMoveManager.HMMJS.jumping.baseHeight, enhancedJumpHeight);
+                            HeroMoveManager.HMMJS.maxForwardSpeed = (HeroMoveManager.HMMJS.maxBackwardsSpeed = (HeroMoveManager.HMMJS.maxSidewaysSpeed = Mathf.Max(HeroMoveManager.HMMJS.maxForwardSpeed, enhancedSpeed)));
+                        }
+                        else
+                        {
+                            // 如果不处于增强状态，恢复原始速度和跳跃高度
+                            HeroMoveManager.HMMJS.jumping.baseHeight = originJumpHeight;
+                            HeroMoveManager.HMMJS.maxForwardSpeed = (HeroMoveManager.HMMJS.maxBackwardsSpeed = (HeroMoveManager.HMMJS.maxSidewaysSpeed = originSpeed));
+                        }
+                    }
+                    /* 以下功能覆盖速度和跳跃
                     if (originJumpHeight == 0f)
                     {
                         originJumpHeight = HeroMoveManager.HMMJS.jumping.baseHeight;
@@ -259,7 +321,7 @@ namespace QHMod
                     {
                         HeroMoveManager.HMMJS.jumping.baseHeight = originJumpHeight;
                         HeroMoveManager.HMMJS.maxForwardSpeed = (HeroMoveManager.HMMJS.maxBackwardsSpeed = (HeroMoveManager.HMMJS.maxSidewaysSpeed = originSpeed));
-                    }
+                    }*/
                 }
                 // 辅助瞄准
                 if (autoaim && (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1)))
@@ -466,7 +528,7 @@ namespace QHMod
             {
                 GUILayout.BeginArea(new Rect(0f, 200f, 150f, 500f));
                 GUILayout.Label("<b><color=red>"+"QHMod功能菜单"+ BuildInfo.Version.ToString()+ "版本" +"</color></b>", null);
-                GUILayout.Label("<color=red>自动捡物品(鼠标中间)</color>", null);
+                GUILayout.Label("<color=red>自动捡物品(鼠标中键)</color>", null);
                 GUILayout.Label("<b><color=red>显示/隐藏(" + QHMod.showUIKey.ToString() + ")</color></b>", null);
                 GUILayout.Label("<b><color=red>重新初始化(" + QHMod.needinitKey.ToString() + ")</color></b>", null);
                 GUILayout.Label("<b><color=red>辅助瞄准(" + QHMod.autoaimKey.ToString() + ")：</color></b>" + (QHMod.autoaim ? "开" : "关"), null);
@@ -479,7 +541,8 @@ namespace QHMod
                 GUILayout.Label("<b><color=red>大头开关(" + QHMod.ZoomWeakStateKey.ToString() + ")：</color></b>" + (QHMod.ZoomWeakState ? "开" : "关"), null);
                 GUILayout.Label("<b><color=red>血条透视(" + QHMod.ShowBloodBarStateKey.ToString() + ")：</color></b>" + (QHMod.ShowBloodBarState ? "开" : "关"), null);
                 GUILayout.Label("<b><color=red>透视开关(" + QHMod.shownpcKey.ToString() + ")：</color></b>" + (QHMod.shownpc ? "开" : "关"), null);
-                GUILayout.Label("<b><color=red>"+ "项目地址:" + BuildInfo.DownloadLink.ToString() +"</color></b>", null);
+                GUILayout.Label("<b><color=red>加入Discord群(PageDown键加入)</color></b>", null);
+                GUILayout.Label("<b><color=red>"+ "项目地址(PageUp键打开项目):" + BuildInfo.DownloadLink.ToString() +"</color></b>", null);
                 GUILayout.EndArea();
             }
             //起飞
@@ -619,6 +682,19 @@ namespace QHMod
                     return "奇货商";
                 case ServerDefine.FightType.NWARRIOR_NPC_PASSBOX:
                     return "过关宝箱";
+                case ServerDefine.FightType.NWARRIOR_NPC_WEAPONSTORE:
+                    return "武器商店";
+                case ServerDefine.FightType.NWARRIOR_NPC_RELIC:
+                    return "神器";
+                case ServerDefine.FightType.NWARRIOR_NPC_TRANSFERPOS:
+                    return "传送NPC";
+                case ServerDefine.FightType.NWARRIOR_NPC_ROOMCHALLENGE:
+                    return "房间挑战NPC";
+
+                case ServerDefine.FightType.NWARRIOR_NPC_BENEDICTION:
+                case ServerDefine.FightType.NWARRIOR_NPC_LIMITGOLDENCUP:
+                case ServerDefine.FightType.NWARRIOR_NPC_CONNECTTRANSFER:
+                case ServerDefine.FightType.NWARRIOR_NPC_RAREGOLDENCUP:
                 default:
                     return obj.Shape.ToString();
             }
